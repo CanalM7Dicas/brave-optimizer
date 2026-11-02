@@ -1,30 +1,27 @@
 # Brave Optimizer
 
-Ferramenta para quem quer desligar recursos opcionais do Brave no Windows. Ela usa políticas do navegador para o **usuário atual** e oferece uma opção para desfazer as alterações. Não instala programas, não baixa arquivos e não precisa de permissão de administrador.
+Automacao para Windows que aplica ajustes especificos ao Brave. O modo completo se aproxima do fluxo mostrado no [video do Canal M7 Dicas](https://www.youtube.com/watch?v=QocKlUfe2sQ): configura opcoes internas, aplica ajustes opcionais no Registro e limpa caches. O Brave precisa estar fechado. A ferramenta nao encerra suas janelas nem instala outros programas.
 
-## O que muda
+## Baixar
 
-Ao escolher **Aplicar**, a ferramenta desliga Brave Rewards, Wallet, VPN, Leo e News. Ela só cria políticas que ainda não existem. Se uma dessas opções já foi definida por você ou pelo administrador do computador, a ferramenta a preserva.
+Na pagina [Releases](../../releases), baixe `Brave-Optimizer.zip` da versao mais recente. Extraia e mantenha `installer.bat` e `optimize_brave.ps1` juntos. Execute o BAT e escolha uma opcao. O download contem somente esses dois arquivos.
 
-O Brave pode mostrar a mensagem **"gerenciado pela organização"** enquanto uma política estiver ativa. Isso é o comportamento normal de configurações impostas pelo Registro. Abra `brave://policy` para conferir os valores. Reinicie o Brave quando for conveniente para aplicar ou restaurar as mudanças.
+## Opcoes do menu
 
-A ferramenta **não** fecha o navegador, apaga cache, altera senhas ou sincronização, muda a pesquisa padrão, mexe nas proteções contra sites perigosos nem abre uma porta de depuração. Ela não promete uma redução fixa de RAM ou melhora de FPS. Recursos opcionais desligados podem reduzir atividade em alguns casos, mas o efeito depende do uso e da versão do Brave.
+1. **Ver alteracoes planejadas:** lista as preferencias e mostra quais politicas do Registro seriam criadas.
+2. **Opcoes internas:** altera somente as preferencias especificadas, em todos os perfis locais `Default` e `Profile N`. Se uma opcao ja estiver no estado desejado, nao toca nela.
+3. **Tweaks de Registro:** cria politicas para desativar Rewards, Wallet, VPN, Leo, News, metricas e apps em segundo plano; ativa aceleracao grafica e o Economizador de Memoria no nivel maximo. O Brave pode mostrar **"gerenciado pela organizacao"**. Politicas preexistentes sao preservadas.
+4. **Limpar caches:** remove somente pastas de cache dos perfis locais. O Brave as recria quando necessario. Essa limpeza nao pode ser desfeita e a primeira abertura pode demorar mais.
+5. **Aplicar tudo:** executa as opcoes internas, os tweaks de Registro e a limpeza de cache.
+6. **Restaurar:** devolve apenas os valores que a ferramenta alterou e que ainda estao iguais aos aplicados. O cache nao pode ser restaurado.
 
-## Baixar e executar
+As opcoes internas incluem a nova aba, barras e botoes extras, Leo, Containers, Speedreader, contador visual dos Escudos, avisos de fechamento, downloads e segundo plano. O preenchimento automatico da barra de endereco fica ativo apenas para **Favoritos** e **Historico de navegacao**. O contador dos Escudos e ocultado, mas o bloqueio de anuncios/rastreadores e a protecao contra impressoes digitais nao sao reduzidos. O bloqueio do Microsoft Recall permanece intocado. Mecanismos de pesquisa, extensoes, senhas, sincronizacao e permissoes de sites tambem permanecem intactos.
 
-1. Abra a página [Releases](../../releases) e baixe `Brave-Optimizer.zip` da versão mais recente.
-2. Extraia o ZIP. Ele contém apenas `installer.bat` e `optimize_brave.ps1`.
-3. Deixe os dois arquivos juntos e execute `installer.bat`.
-4. Escolha **1** para conferir as alterações, **2** para aplicar ou **3** para restaurar.
+O nivel maximo do Economizador de Memoria pode recarregar abas inativas mais cedo. Abas que reproduzem audio ou video normalmente nao sao desativadas pelo recurso, mas o comportamento depende da versao do navegador. Se usa WhatsApp Web ou outro site que precisa continuar ativo, confira `brave://settings/performance` e adicione o site as excecoes quando necessario.
 
-O arquivo BAT chama o PowerShell com `-ExecutionPolicy Bypass` somente nesse processo. Você também pode abrir o PowerShell e executar o script diretamente com `-Action Preview`, `-Action Apply` ou `-Action Restore`.
+As politicas ficam em `HKCU\SOFTWARE\Policies\BraveSoftware\Brave`. Confira o resultado em `brave://policy`; se alguma politica aparecer como desconhecida na sua versao, o Brave a ignorou. A ferramenta nao substitui politicas que ja existiam no usuario ou no computador. Os registros de restauracao ficam em `%LOCALAPPDATA%\BraveOptimizer`. Nao guardam senhas nem copias permanentes do arquivo completo de preferencias.
 
-O registro das políticas criadas fica em `%LOCALAPPDATA%\BraveOptimizer\policy-state.json`. A opção **Restaurar** remove apenas os valores criados pela ferramenta e ainda iguais aos aplicados por ela. Ela preserva valores que outra pessoa ou programa alterou depois.
+Voce tambem pode chamar o script diretamente com `-Action Preview`, `Apply`, `Registry`, `Cache`, `All` ou `Restore`. O BAT usa `-ExecutionPolicy Bypass` apenas no processo que executa este script. Ao terminar, pressione uma tecla para fechar a janela.
 
-## Escopo e verificacao
+Nenhuma configuracao garante um ganho fixo de RAM ou FPS. O impacto varia conforme as abas e extensoes em uso. Projeto independente, desenvolvido por [CanalM7Dicas](https://youtube.com/@CanalM7dicas), sem afiliacao ao Brave.
 
-As políticas são gravadas em `HKCU\SOFTWARE\Policies\BraveSoftware\Brave`. Valores definidos em `HKLM` ou já existentes em `HKCU` são preservados. Antes de aplicar, confira as escolhas na tela. Depois, veja o resultado em `brave://policy`.
-
-Se quiser reduzir o uso de memória de abas inativas, confira o Economizador de Memória em `brave://settings/performance` e ajuste conforme seu uso. Isso fica a seu critério, especialmente se você usa música ou mensagens em segundo plano.
-
-Projeto independente, desenvolvido por [CanalM7Dicas](https://youtube.com/@CanalM7dicas). Não é afiliado ao Brave.
